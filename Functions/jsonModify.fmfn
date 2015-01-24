@@ -1,0 +1,43 @@
+/**
+ * =====================================
+ * jsonModify ( json ; keyOrIndex ; newValue )
+ *
+ *   adds or modifies a property on a JSON Object
+ *
+ * RETURNS:
+ *             the modifed JSON Object
+ *
+ * PARAMETERS:
+ *             json -  the valid JSON string modify
+ *             keyOrIndex -  the name of the object property, or array index to add or modify
+ *             newValue -  the value of the property
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *                     changed name to jsonModify ( json ; property ; value )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */
+
+Let ( [
+               quoteNewValue =
+               Case (
+                       LeftWords ( jsonValidate ( newValue ) ; 1 ) <> "Error" ; False ;
+                       GetAsNumber ( newValue ) = GetAsText ( newValue ) ; False ;
+                       True
+               ) ;
+               newValue = If ( quoteNewValue ; Quote ( newValue ) ; newValue ) ;
+               js =
+               List (
+                       "var json = " & json & " ; " ;
+                       "var property = " & Quote ( keyOrIndex ) & " ; " ;
+                       "var value = " & newValue & " ; " ;
+               ) & "¶¶" & "" & "¶" & "json[property]= value;" & "¶" &
+               "JSON.stringify(json)" & "¶" & ""
+       ] ;
+       BE_EvaluateJavaScript ( js )
+)

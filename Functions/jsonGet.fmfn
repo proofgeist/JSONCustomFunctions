@@ -1,0 +1,56 @@
+/**
+ * =====================================
+ * jsonGet ( json ; keyOrIndex )
+ *
+ *  a convenience function that handles the most comm JSONPath cases
+ *  Works with JSON Objects and JSON Arrays
+ *
+ * RETURNS:
+ *             the value specfied by the keyOrIndex
+ *
+ * PARAMETERS:
+ *             json - the json string
+ *             keyOrIndex - use a "key" for objects, and an "index" for number
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */
+
+Let ( [
+       json = BE_JSONPath ( json ; "$" ) ;  //normalize the json
+       start = Left ( json ; 1 ) ;
+       end = Right ( json ; 1 ) ;
+       type = 
+               Case ( 
+                       ( start = "[" ) and ( end = "]" ) ; "array" ;
+                       ( start = "{" ) and ( end = "}" ) ; "object" ;
+                       "other"
+               ) ;
+       keyOrValue =
+               Case ( type = "array" ; GetAsNumber ( keyOrIndex ) ; keyOrIndex ) ;
+       path = "$" &
+               Case ( type = "array" ; "[" & keyOrIndex & "]" ; "." & keyOrValue );
+
+       result = 
+               Case (
+                       json = "?" ; BE_JSON_Error_Description  ;
+                       type = "array" and IsEmpty ( keyOrIndex ) ;"" ;
+                       type = "other" ; "" ;                                   
+
+                       BE_JSONPath ( json ; path )     
+               ) 
+
+
+] ;
+
+Case(
+   result <> "?" ; result;
+   IsEmpty( FilterValues(  jsonGetKeyList ( json ) ; keyOrValue  ) ) ; "" ; // the keyOrValue did not exist
+   BE_JSON_Error_Description
+) 
+)

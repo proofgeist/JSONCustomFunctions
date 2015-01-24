@@ -1,0 +1,30 @@
+/**
+ * =====================================
+ * jsonGetKeyList ( json )
+ *
+ *   gets the list of member properties from a JSON object.  It only goes one level deep
+ *
+ * RETURNS:
+ *             the list of property names
+ *
+ * PARAMETERS:
+ *             json  -  the valid JSON string to get the properties from
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed name to jsonGetKeyList ( json )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */
+
+Let ( [
+               js = "var json = " & json & " ; " & "¶¶" & "" & "¶" & "" & "¶" & "" &
+               "¶" & "var keys = Object.keys(json);" & "¶" & "keys = keys.join('\r');" &
+               "¶" & "keys" & "¶" & ""
+       ] ;
+       BE_EvaluateJavaScript ( js )
+)

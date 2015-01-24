@@ -1,0 +1,40 @@
+/**
+ * =====================================
+ * jsonDelete ( json ; keyOrIndex )
+ *
+ * RETURNS:
+ *             JSON Object with the specified property removed
+ *
+ * PARAMETERS:property
+ *             json  -  the valid JSON string to modify
+ *             keyOrIndex -  the key of the property to remove or the index to remove of an array
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed the name to "jsonDelete ( json ; keyOrIndex )" and added support for handling an array
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */
+
+Let ( [
+               js =
+               List (
+                       "var json = " & json & " ; " ;
+                       "var keyOrIndex = " & Quote ( keyOrIndex ) & " ; " ;
+               ) & "¶¶" & 
+
+                "if( Array.isArray(json)  ){" & "¶" &
+               "    keyOrIndex = parseInt(keyOrIndex);" & "¶" &
+               "    json.splice(keyOrIndex,1)" & "¶" & 
+                "}else{" & "¶" &
+               "    delete json[keyOrIndex];" & "¶" & 
+                "}" & "¶" &
+               "json = JSON.stringify(json);" & "¶" & 
+                 "json" & "¶" & ""
+       ] ;
+       BE_EvaluateJavaScript ( js )
+)

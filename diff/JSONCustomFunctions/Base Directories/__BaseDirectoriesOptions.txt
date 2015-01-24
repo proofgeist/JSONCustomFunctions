@@ -1,3 +1,0 @@
-Thumbnails:
-	state: True
-	type: Temporary

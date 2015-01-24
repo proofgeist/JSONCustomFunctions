@@ -1,0 +1,30 @@
+/**
+ * =====================================
+ * jsonValidate ( json )
+ *
+ *   validates a JSON String
+ *
+ * RETURNS:
+ *             1 if valid, and an error string if invalid. the errorString will equal FALSE
+ *
+ * PARAMETERS:
+ *             json - the json string to validate
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */
+
+Let([
+json = BE_JSONPath ( json ; "$" )
+];
+
+Case(
+   json = "?" ; Substitute( BE_JSON_Error_Description; Char( 10 ); "¶");
+   1
+)
+)

@@ -1,7 +1,0 @@
-Description: 
-changePasswordOnNextLogin: False
-emptyPassword: False
-id: 1
-managedBy: FileMaker
-privilegeSet: [Read-Only Access]
-status: Inactive
