@@ -3,4 +3,238 @@ JSONCustomFunctions
 
 A set of custom Functions for handling JSON with BaseElements Plugin
 
-diffing isn't working right now :-(
+##jsonA ( arrayValues)```/**
+ * =====================================
+ * jsonA ( arrayValues )
+ *
+ * RETURNS:
+ *             wraps the items in "[" and "]" removes trailing coma
+ *
+ * PARAMETERS:
+ *             arrayValues = a series of items created with the cf jsonItem
+ *
+ * DEPENDENCIES:
+ *             None
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *                     changed the name to jsonA( arrayValues )
+ *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed the name to jsonNewArray ( arrayValues )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonAv ( value)```/**
+ * =====================================
+ * jsonAv( value )
+ *
+ * RETURNS:
+ *             prepares a string for inclusion as an element in a JSON array
+ *
+ * PARAMETERS:
+ *             value = string - the value of the Array element
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *                     changed the name to jsonAv( arrayValues )
+ *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed name to jsonNewArrayValue ( value )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonDelete ( json;keyOrIndex)```/**
+ * =====================================
+ * jsonDelete ( json ; keyOrIndex )
+ *
+ * RETURNS:
+ *             JSON Object with the specified property removed
+ *
+ * PARAMETERS:property
+ *             json  -  the valid JSON string to modify
+ *             keyOrIndex -  the key of the property to remove or the index to remove of an array
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed the name to "jsonDelete ( json ; keyOrIndex )" and added support for handling an array
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonGet ( json;keyOrIndex)```/**
+ * =====================================
+ * jsonGet ( json ; keyOrIndex )
+ *
+ *  a convenience function that handles the most comm JSONPath cases
+ *  Works with JSON Objects and JSON Arrays
+ *
+ * RETURNS:
+ *             the value specfied by the keyOrIndex
+ *
+ * PARAMETERS:
+ *             json - the json string
+ *             keyOrIndex - use a "key" for objects, and an "index" for number
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonGetKeyList ( json)```/**
+ * =====================================
+ * jsonGetKeyList ( json )
+ *
+ *   gets the list of member properties from a JSON object.  It only goes one level deep
+ *
+ * RETURNS:
+ *             the list of property names
+ *
+ * PARAMETERS:
+ *             json  -  the valid JSON string to get the properties from
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed name to jsonGetKeyList ( json )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonGetValueList ( json)```/**
+ * =====================================
+ * jsonGetValueList ( json )
+ *
+ *   gets the Values of an object or array one level deep
+ *
+ * RETURNS:
+ *             a list of values. JSON Objects and Arrays are returned as JSON
+ *
+ * PARAMETERS:
+ *             json  -  the valid JSON string to get the properties from
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonModify ( json;keyOrIndex;newValue)```/**
+ * =====================================
+ * jsonModify ( json ; keyOrIndex ; newValue )
+ *
+ *   adds or modifies a property on a JSON Object
+ *
+ * RETURNS:
+ *             the modifed JSON Object
+ *
+ * PARAMETERS:
+ *             json -  the valid JSON string modify
+ *             keyOrIndex -  the name of the object property, or array index to add or modify
+ *             newValue -  the value of the property
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *                     changed name to jsonModify ( json ; property ; value )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonO ( properties)```/**
+ * =====================================
+ * jsonO( properties )
+ *
+ *   wraps and prepares a series of jsonObjectMembers for inclusion in a JSON Object
+ *
+ * RETURNS:
+ *             the json Object
+ *
+ * PARAMETERS:
+ *             properties - a series of json object properties created by the cf jsonNewObjectProperty
+ *
+ * DEPENDENCIES:
+ *             None
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *                     changed the name to jsonO( properties )
+ *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed name to jsonNewObject ( properties )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonOp ( key;value)```/**
+ * =====================================
+ * jsonOp ( key ; value )
+ *
+ *   Formats a key value pair as an JSON object property
+ *
+ * RETURNS:
+ *             the key value pair
+ *
+ * PARAMETERS:
+ *             key  -  the name of the property
+ *             value = string - the value of the Array element
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *                     changed the name to jsonOp ( key ; value )
+ *             CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     changed name to jsonNewObjectProperty ( key ; value )
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonPrettyPrint ( json;whiteSpace)```/**
+ * =====================================
+ * jsonPrettyPrint ( json ; whiteSpace )
+ *
+ *   Pretty Prints a json Object with an indent.
+ *
+ * RETURNS:
+ *             the prettified JSON Object
+ *
+ * PARAMETERS:
+ *             json - the json string to pretty print
+ *             whiteSpace - string - the character or characters to use as whiteSpace
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             MODIFED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *                     added second parameter to set the white space character
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```##jsonValidate ( json)```/**
+ * =====================================
+ * jsonValidate ( json )
+ *
+ *   validates a JSON String
+ *
+ * RETURNS:
+ *             1 if valid, and an error string if invalid. the errorString will equal FALSE
+ *
+ * PARAMETERS:
+ *             json - the json string to validate
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */```
