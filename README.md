@@ -1,8 +1,3 @@
-JSONCustomFunctions
-===================
-
-A set of custom Functions for handling JSON with BaseElements Plugin
-
 ##jsonA ( arrayValues)```/**
  * =====================================
  * jsonA ( arrayValues )
@@ -144,7 +139,9 @@ A set of custom Functions for handling JSON with BaseElements Plugin
  *             BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *             Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
+ *                     fixed a bug in handling "" as a newValue
+ *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
  *                     changed name to jsonModify ( json ; property ; value )
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
