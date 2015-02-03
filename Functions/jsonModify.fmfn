@@ -1,6 +1,6 @@
 /**
  * =====================================
- * jsonModify ( json ; keyOrIndex ; newValue )
+ * jsonModify ( json ; keyOrIndexOrPath ; newValue )
  *
  *   adds or modifies a property on a JSON Object
  *
@@ -9,13 +9,19 @@
  *
  * PARAMETERS:
  *             json -  the valid JSON string modify
- *             keyOrIndex -  the name of the object property, or array index to add or modify
- *             newValue -  the value of the property
+ *             keyOrIndexOrPath -  the name of the object property, or array index to add or modify
+ *                     or the json Path to the property array you want to modify
+ *                     ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property
+ *                     on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary
+ *                                             
+ *             newValue -  the value of the property or array item
  *
  * DEPENDENCIES:
  *             BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *             Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
+ *                     added the ability to use JSONPath as the keyOrIndexOrPath
  *             Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
  *                     fixed a bug in handling "" as a newValue
  *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
@@ -24,23 +30,125 @@
  *
  * =====================================
  */
+Let([
+/*-----------------------------*/
 
-Let ( [
-               quoteNewValue =
-               Case (
-                       IsEmpty( newValue ) ; True;
-                       LeftWords ( jsonValidate ( newValue ) ; 1 ) <> "Error" ; False ;
-                       GetAsNumber ( newValue ) = GetAsText ( newValue ) ; False ;
-                       True
-               ) ;
-               newValue = If ( quoteNewValue ; Quote ( newValue ) ; newValue ) ;
-               js =
-               List (
-                       "var json = " & json & " ; " ;
-                       "var property = " & Quote ( keyOrIndex ) & " ; " ;
-                       "var value = " & newValue & " ; " ;
-               ) & "¶¶" & "" & "¶" & "json[property]= value;" & "¶" &
-               "JSON.stringify(json)" & "¶" & ""
-       ] ;
-       BE_EvaluateJavaScript ( js )
+quoteNewValue =
+       Case (
+               IsEmpty( newValue ) ; True;
+               LeftWords ( jsonValidate ( newValue ) ; 1 ) <> "Error" ; False ;
+               GetAsNumber ( newValue ) = GetAsText ( newValue ) ; False ;
+               True
+       ) ;
+newValue = If ( quoteNewValue ; Quote ( newValue ) ; newValue ) ;
+keyOrIndexOrPath =
+       Case(
+               keyOrIndexOrPath = Filter(keyOrIndexOrPath; "0123456789") ; "[" & keyOrIndexOrPath & "]" ;
+               keyOrIndexOrPath
+       );
+
+
+
+/*-----------------------------*/
+js =
+List(
+"var json = " & json & " ; " ;
+"var keyOrIndexOrPath = " & Quote(keyOrIndexOrPath) & " ; " ;
+"var newValue = " & newValue & " ; " ;
+)&
+"¶¶"&
+""&"¶"&
+"    if(Array.isArray(json)){"&"¶"&
+"        var obj = {"&"¶"&
+"            theArray : json"&"¶"&
+"        }"&"¶"&
+"              json = obj;"&"¶"&
+"        keyOrIndexOrPath = \"theArray\" + keyOrIndexOrPath"&"¶"&
+"    }"&"¶"&
+""&"¶"&
+""&"¶"&
+"var r = modify(json, keyOrIndexOrPath, newValue);"&"¶"&
+""&"¶"&
+"JSON.stringify(r)"&"¶"&
+""&"¶"&
+""&"¶"&
+""&"¶"&
+"function modify(obj, path, value){"&"¶"&
+""&"¶"&
+""&"¶"&
+""&"¶"&
+"    path = path.replace('][', '].[')"&"¶"&
+"    var segments = path.split('.')"&"¶"&
+""&"¶"&
+"    var newArray = []"&"¶"&
+"    segments.forEach(function (prop) {"&"¶"&
+"        if(prop.indexOf(']')> 0){"&"¶"&
+"            var prop = prop.split('[');"&"¶"&
+"            newArray.push(prop[0])"&"¶"&
+"            newArray.push('[' + prop[1])"&"¶"&
+""&"¶"&
+"        }else{"&"¶"&
+"            newArray.push(prop)"&"¶"&
+"        }"&"¶"&
+""&"¶"&
+"    })"&"¶"&
+"    segments = newArray"&"¶"&
+"    delete newArray"&"¶"&
+""&"¶"&
+""&"¶"&
+"    var evalPath = \"obj\";"&"¶"&
+"    segments.forEach(function (segment , i) {"&"¶"&
+"        var nextSegment = segments[i+1]"&"¶"&
+"        var nextSegmentType"&"¶"&
+""&"¶"&
+""&"¶"&
+"        if (!nextSegment){"&"¶"&
+"            nextSegment = 'value'"&"¶"&
+"            nextSegmentType = ''"&"¶"&
+""&"¶"&
+"        }else if(nextSegment.indexOf('[')===0){"&"¶"&
+"            nextSegment = '[]'"&"¶"&
+"            nextSegmentType = \"array\""&"¶"&
+"        }else{"&"¶"&
+"            nextSegment = '{}'"&"¶"&
+"            nextSegmentType = \"object\""&"¶"&
+"        }"&"¶"&
+""&"¶"&
+"        if( segment.indexOf('[')===0 ){"&"¶"&
+"            evalPath = evalPath + segment"&"¶"&
+"        }else"&"¶"&
+"        {"&"¶"&
+"            if(segment !=''){"&"¶"&
+"                evalPath = evalPath + '.' + segment"&"¶"&
+"            }"&"¶"&
+""&"¶"&
+"        }"&"¶"&
+""&"¶"&
+"        var propsOriginalValue = eval(evalPath);"&"¶"&
+""&"¶"&
+"        if(!propsOriginalValue){"&"¶"&
+"            eval(evalPath+'='+ nextSegment )"&"¶"&
+"        }else if(Array.isArray(propsOriginalValue ) && 'array' != nextSegmentType){"&"¶"&
+"            eval(evalPath+'='+ nextSegment )"&"¶"&
+"        }else if( typeof propsOriginalValue != nextSegmentType && !Array.isArray(propsOriginalValue ) ){"&"¶"&
+"            eval(evalPath+'='+ nextSegment )"&"¶"&
+"        }"&"¶"&
+""&"¶"&
+""&"¶"&
+"    })"&"¶"&
+""&"¶"&
+""&"¶"&
+"    if(Array.isArray(obj.theArray)){"&"¶"&
+"        return obj.theArray"&"¶"&
+"    }else{"&"¶"&
+"        return obj"&"¶"&
+"    }"&"¶"&
+""&"¶"&
+""&"¶"&
+"}"&"¶"&
+""&"¶"&
+""&"¶"&
+""
+];
+BE_EvaluateJavaScript( js )
 )

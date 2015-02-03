@@ -121,9 +121,9 @@
  *             CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonModify ( json;keyOrIndex;newValue)```/**
+ */```##jsonModify ( json;keyOrIndexOrPath;newValue)```/**
  * =====================================
- * jsonModify ( json ; keyOrIndex ; newValue )
+ * jsonModify ( json ; keyOrIndexOrPath ; newValue )
  *
  *   adds or modifies a property on a JSON Object
  *
@@ -132,13 +132,19 @@
  *
  * PARAMETERS:
  *             json -  the valid JSON string modify
- *             keyOrIndex -  the name of the object property, or array index to add or modify
- *             newValue -  the value of the property
+ *             keyOrIndexOrPath -  the name of the object property, or array index to add or modify
+ *                     or the json Path to the property array you want to modify
+ *                     ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property
+ *                     on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary
+ *                                             
+ *             newValue -  the value of the property or array item
  *
  * DEPENDENCIES:
  *             BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *             Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
+ *                     added the ability to use JSONPath as the keyOrIndexOrPath
  *             Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
  *                     fixed a bug in handling "" as a newValue
  *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
