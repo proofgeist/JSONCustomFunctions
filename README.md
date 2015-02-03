@@ -121,6 +121,28 @@
  *             CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
+ */```##jsonMerge ( target;source)```/**
+ * =====================================
+ * jsonMerge ( target ; source )
+ *
+ *     does a shallow merge of all properties on the source into the target
+ *     shallow means that it does not traverse nested properties.
+ *     Only the objects immediate own properties are dealt with
+ *
+ * RETURNS:
+ *             the modifed JSON Object
+ *
+ * PARAMETERS:
+ *             source -  the valid JSON string to merge into
+ *             target -  the valid jsson to copy from
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
  */```##jsonModify ( json;keyOrIndexOrPath;newValue)```/**
  * =====================================
  * jsonModify ( json ; keyOrIndexOrPath ; newValue )

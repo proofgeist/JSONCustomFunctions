@@ -1,0 +1,77 @@
+/**
+ * =====================================
+ * jsonMerge ( target ; source )
+ *
+ *     does a shallow merge of all properties on the source into the target
+ *     shallow means that it does not traverse nested properties.
+ *     Only the objects immediate own properties are dealt with
+ *
+ * RETURNS:
+ *             the modifed JSON Object
+ *
+ * PARAMETERS:
+ *             source -  the valid JSON string to merge into
+ *             target -  the valid jsson to copy from
+ *
+ * DEPENDENCIES:
+ *             BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *             CREATED on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */
+
+Let([
+
+
+js =
+List(
+"var target = " & target & " ; " ;
+"var source = " & source & " ; " ;
+)&
+"¶¶"&
+""&"¶"&
+""&"¶"&
+"if (!Object.assign) {"&"¶"&
+"    Object.defineProperty(Object, 'assign', {"&"¶"&
+"        enumerable: false,"&"¶"&
+"        configurable: true,"&"¶"&
+"        writable: true,"&"¶"&
+"        value: function(target, firstSource) {"&"¶"&
+"            'use strict';"&"¶"&
+"            if (target === undefined || target === null) {"&"¶"&
+"                throw new TypeError('Cannot convert first argument to object');"&"¶"&
+"            }"&"¶"&
+""&"¶"&
+"            var to = Object(target);"&"¶"&
+"            for (var i = 1; i < arguments.length; i++) {"&"¶"&
+"                var nextSource = arguments[i];"&"¶"&
+"                if (nextSource === undefined || nextSource === null) {"&"¶"&
+"                    continue;"&"¶"&
+"                }"&"¶"&
+""&"¶"&
+"                var keysArray = Object.keys(Object(nextSource));"&"¶"&
+"                for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {"&"¶"&
+"                    var nextKey = keysArray[nextIndex];"&"¶"&
+"                    var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);"&"¶"&
+"                    if (desc !== undefined && desc.enumerable) {"&"¶"&
+"                       if( nextSource[nextKey] === undefined ){"&"¶"&
+"                            continue"&"¶"&
+"                        }"&"¶"&
+"                        to[nextKey] = nextSource[nextKey];"&"¶"&
+"                    }"&"¶"&
+"                }"&"¶"&
+"            }"&"¶"&
+"            return to;"&"¶"&
+"        }"&"¶"&
+"    });"&"¶"&
+"}"&"¶"&
+""&"¶"&
+""&"¶"&
+""&"¶"&
+"JSON.stringify ( Object.assign(target, source));"&"¶"&
+""
+];
+BE_EvaluateJavaScript( js )
+)
