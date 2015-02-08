@@ -60,9 +60,9 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonGet ( json;keyOrIndex)```/**
+ */```##jsonGet ( json;keyOrIndexOrPath)```/**
  * =====================================
- * jsonGet ( json ; keyOrIndex )
+ * jsonGet ( json ; keyOrIndexOrPath )
  *
  *  a convenience function that handles the most comm JSONPath cases
  *  Works with JSON Objects and JSON Arrays
@@ -78,6 +78,8 @@
  *             BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *             MODIFIED on 2015-FEB-08 Todd Geist, todd@geistinteractive.com
+ *                     changed parameter name to "keyOrIndexOrPath"
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
