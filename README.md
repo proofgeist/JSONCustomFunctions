@@ -4,6 +4,8 @@ You can get that here.
 
 http://www.goya.com.au/baseelements/plugin
 
+Open the JSONCustomFunctions.fmp12 file, to get the functions and to see how they work.
+
 
 ##jsonA ( arrayValues)
 ```
