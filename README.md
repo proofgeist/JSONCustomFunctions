@@ -1,4 +1,13 @@
-##jsonA ( arrayValues)```/**
+### All of these Custom Functions require version 3 or greater of the Base Elements Plugin
+
+You can get that here.
+
+http://www.goya.com.au/baseelements/plugin
+
+
+##jsonA ( arrayValues)
+```
+/**
  * =====================================
  * jsonA ( arrayValues )
  *
@@ -19,7 +28,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonAv ( value)```/**
+ */
+```
+##jsonAv ( value)
+```
+/**
  * =====================================
  * jsonAv( value )
  *
@@ -40,7 +53,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonDelete ( json;keyOrIndex)```/**
+ */
+```
+##jsonDelete ( json;keyOrIndex)
+```
+/**
  * =====================================
  * jsonDelete ( json ; keyOrIndex )
  *
@@ -60,7 +77,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonGet ( json;keyOrIndexOrPath)```/**
+ */
+```
+##jsonGet ( json;keyOrIndexOrPath)
+```
+/**
  * =====================================
  * jsonGet ( json ; keyOrIndexOrPath )
  *
@@ -83,7 +104,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonGetKeyList ( json)```/**
+ */
+```
+##jsonGetKeyList ( json)
+```
+/**
  * =====================================
  * jsonGetKeyList ( json )
  *
@@ -104,7 +129,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonGetValueList ( json)```/**
+ */
+```
+##jsonGetValueList ( json)
+```
+/**
  * =====================================
  * jsonGetValueList ( json )
  *
@@ -123,7 +152,11 @@
  *             CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonMerge ( target;source)```/**
+ */
+```
+##jsonMerge ( target;source)
+```
+/**
  * =====================================
  * jsonMerge ( target ; source )
  *
@@ -145,7 +178,11 @@
  *             CREATED on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonModify ( json;keyOrIndexOrPath;newValue)```/**
+ */
+```
+##jsonModify ( json;keyOrIndexOrPath;newValue)
+```
+/**
  * =====================================
  * jsonModify ( json ; keyOrIndexOrPath ; newValue )
  *
@@ -176,7 +213,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonO ( properties)```/**
+ */
+```
+##jsonO ( properties)
+```
+/**
  * =====================================
  * jsonO( properties )
  *
@@ -199,7 +240,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonOp ( key;value)```/**
+ */
+```
+##jsonOp ( key;value)
+```
+/**
  * =====================================
  * jsonOp ( key ; value )
  *
@@ -223,7 +268,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonPrettyPrint ( json;whiteSpace)```/**
+ */
+```
+##jsonPrettyPrint ( json;whiteSpace)
+```
+/**
  * =====================================
  * jsonPrettyPrint ( json ; whiteSpace )
  *
@@ -245,7 +294,11 @@
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonValidate ( json)```/**
+ */
+```
+##jsonValidate ( json)
+```
+/**
  * =====================================
  * jsonValidate ( json )
  *
@@ -264,4 +317,5 @@
  *             CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```
+ */
+```
