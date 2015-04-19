@@ -5,28 +5,30 @@
  *   adds or modifies a property on a JSON Object
  *
  * RETURNS:
- *             the modifed JSON Object
+ *		the modifed JSON Object
  *
  * PARAMETERS:
- *             json -  the valid JSON string modify
- *             keyOrIndexOrPath -  the name of the object property, or array index to add or modify
- *                     or the json Path to the property array you want to modify
- *                     ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property
- *                     on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary
- *                                             
- *             newValue -  the value of the property or array item
+ *		json -  the valid JSON string modify
+ *		keyOrIndexOrPath -  the name of the object property, or array index to add or modify
+ *			or the json Path to the property array you want to modify
+ *			ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property
+ *			on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary
+ *						
+ *		newValue -  the value of the property or array item
  *
  * DEPENDENCIES:
- *             BaseElements Plugin version 3.0 or greater
+ *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *             Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
- *                     added the ability to use JSONPath as the keyOrIndexOrPath
- *             Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
- *                     fixed a bug in handling "" as a newValue
- *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
- *                     changed name to jsonModify ( json ; property ; value )
- *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ * 		Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com
+ * 		 	added error now return "?", actual error is in $json.error
+ * 		Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
+ * 		 	added the ability to use JSONPath as the keyOrIndexOrPath
+ * 		Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
+ * 		 	fixed a bug in handling "" as a newValue
+ *		MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ * 		 	changed name to jsonModify ( json ; property ; value )
+ *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
@@ -34,18 +36,19 @@ Let([
 /*-----------------------------*/
 
 quoteNewValue =
-       Case (
-               IsEmpty( newValue ) ; True;
-               LeftWords ( jsonValidate ( newValue ) ; 1 ) <> "Error" ; False ;
-               GetAsNumber ( newValue ) = GetAsText ( newValue ) ; False ;
-               True
-       ) ;
+	Case (
+		IsEmpty( newValue ) ; True;
+		 jsonValidate ( newValue ) <> "?" ; False ;
+		GetAsNumber ( newValue ) = GetAsText ( newValue ) ; False ;
+		True
+	) ;
+$json.error = "";  // in case it was set above
 newValue = If ( quoteNewValue ; Quote ( newValue ) ; newValue ) ;
 keyOrIndexOrPath =
-       Case(
-               keyOrIndexOrPath = Filter(keyOrIndexOrPath; "0123456789") ; "[" & keyOrIndexOrPath & "]" ;
-               keyOrIndexOrPath
-       );
+	Case(
+             	keyOrIndexOrPath = Filter(keyOrIndexOrPath; "0123456789") ; "[" & keyOrIndexOrPath & "]" ;
+		keyOrIndexOrPath
+	);
 
 
 
@@ -62,7 +65,7 @@ List(
 "        var obj = {"&"¶"&
 "            theArray : json"&"¶"&
 "        }"&"¶"&
-"              json = obj;"&"¶"&
+"		json = obj;"&"¶"&
 "        keyOrIndexOrPath = \"theArray\" + keyOrIndexOrPath"&"¶"&
 "    }"&"¶"&
 ""&"¶"&
