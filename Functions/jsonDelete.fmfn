@@ -38,7 +38,7 @@ Let ( [
 		"json = JSON.stringify(json);" & "¶" & 
                  "json" & "¶" & "";
 		result = BE_EvaluateJavaScript( js );
-		isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "		TypeError" ; "URIError") ) );
+		isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "TypeError" ; "URIError") ) );
 		$json.error = 
 			Case(
 				BE_Version = "?" ; "BaseElements plugin is not available" ;
