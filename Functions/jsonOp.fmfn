@@ -5,27 +5,27 @@
  *   Formats a key value pair as an JSON object property
  *
  * RETURNS:
- *             the key value pair
+ *		the key value pair
  *
  * PARAMETERS:
- *             key  -  the name of the property
- *             value = string - the value of the Array element
+ *		key  -  the name of the property
+ *		value = string - the value of the Array element
  *
  * DEPENDENCIES:
- *             BaseElements Plugin version 3.0 or greater
+ *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
- *                     changed the name to jsonOp ( key ; value )
- *             CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *                     changed name to jsonNewObjectProperty ( key ; value )
- *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *		MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *			changed the name to jsonOp ( key ; value )
+ *		CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ * 			changed name to jsonNewObjectProperty ( key ; value )
+ * 		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
 If (
-       Left ( value ; 1 ) = "[" and Right ( value ; 1 ) = "]" or Left ( value ; 1 ) = "{" and Right ( value ; 1 ) = "}" ;
-               Quote ( key ) & ":" & value ;
-       BE_JSON_Encode ( key ; value )
+	Left ( value ; 1 ) = "[" and Right ( value ; 1 ) = "]" or Left ( value ; 1 ) = "{" and Right ( value ; 1 ) = "}" ;
+	        Quote ( key ) & ":" & value ;
+	BE_JSON_Encode ( key ; value )
 ) & ","

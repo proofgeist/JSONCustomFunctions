@@ -5,33 +5,44 @@
  *   gets the Values of an object or array one level deep
  *
  * RETURNS:
- *             a list of values. JSON Objects and Arrays are returned as JSON
+ *		a list of values. JSON Objects and Arrays are returned as JSON
  *
  * PARAMETERS:
- *             json  -  the valid JSON string to get the properties from
+ *		json  -  the valid JSON string to get the properties from
  *
  * DEPENDENCIES:
- *             BaseElements Plugin version 3.0 or greater
+ *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *             CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *		CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
 
 Let ( [
-               js = 
-               "var json = " & json & " ; " & "¶¶" & 
-               "" & "¶" &
-               "var keys = Object.keys(json);" & "¶" & 
-               "var outArray = [];" & "¶" &
-               "keys.forEach(function (key) {" & "¶" & 
-               "    var value = json[key];" & "¶" & 
-               "    if( Array.isArray(value) || typeof value === 'object') {" & "¶" & 
-               "        value = JSON.stringify(value)" & "¶" & "    }" & "¶" &
-               "    outArray.push(value);" & "¶" & "});" & "¶" &
-               "outArray = outArray.join('\r');" & "¶" & ""
-       ] ;
-       BE_EvaluateJavaScript ( js )
+		js = 
+		"var json = " & json & " ; " & "¶¶" & 
+		"" & "¶" &
+		"var keys = Object.keys(json);" & "¶" & 
+		"var outArray = [];" & "¶" &
+		"keys.forEach(function (key) {" & "¶" & 
+		"    var value = json[key];" & "¶" & 
+		"    if( Array.isArray(value) || typeof value === 'object') {" & "¶" & 
+		"        value = JSON.stringify(value)" & "¶" & "    }" & "¶" &
+		"    outArray.push(value);" & "¶" & "});" & "¶" &
+		"outArray = outArray.join('\r');" & "¶" & "";
+		result = BE_EvaluateJavaScript( js );
+		isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "		TypeError" ; "URIError") ) );
+		$json.error = 
+			Case(
+				BE_Version = "?" ; "BaseElements plugin is not available" ;
+				isError; result ; 
+				""
+			)
+];
+Case(	
+	isError; "?" ; 
+	result
+)
 )

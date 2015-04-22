@@ -5,19 +5,21 @@
  *   Pretty Prints a json Object with an indent.
  *
  * RETURNS:
- *             the prettified JSON Object
+ *		the prettified JSON Object
  *
  * PARAMETERS:
- *             json - the json string to pretty print
- *             whiteSpace - string - the character or characters to use as whiteSpace
+ *		json - the json string to pretty print
+ *		whiteSpace - string - the character or characters to use as whiteSpace
  *
  * DEPENDENCIES:
- *             BaseElements Plugin version 3.0 or greater
+ *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *             MODIFED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *                     added second parameter to set the white space character
- *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
+ *		MODIFED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *			added second parameter to set the white space character
+ *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
@@ -35,10 +37,19 @@ List(
 "}"&"¶"&
 ""&"¶"&
 "json = JSON.stringify(json, null , whiteSpace);"&"¶"&
-""
-];
+"";
 
-Substitute( 
-BE_EvaluateJavaScript( js ) ; Char(10) ; "¶"
+result = BE_EvaluateJavaScript( js );
+isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "TypeError" ; "URIError") ) );
+$json.error = 
+Case(
+	BE_Version = "?" ; "BaseElements plugin is not available" ;
+	isError; result ; 
+	""
+)
+];
+Case(	
+	isError; "?" ; 
+	Substitute( result ;Char(10) ; "¶" )
 )
 )

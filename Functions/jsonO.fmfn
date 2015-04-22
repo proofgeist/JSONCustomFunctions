@@ -5,32 +5,32 @@
  *   wraps and prepares a series of jsonObjectMembers for inclusion in a JSON Object
  *
  * RETURNS:
- *             the json Object
+ *		the json Object
  *
  * PARAMETERS:
- *             properties - a series of json object properties created by the cf jsonNewObjectProperty
+ *		properties - a series of json object properties created by the cf jsonNewObjectProperty
  *
  * DEPENDENCIES:
- *             None
+ *		None
  *
  * HISTORY:
- *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
- *                     changed the name to jsonO( properties )
- *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *                     changed name to jsonNewObject ( properties )
- *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *		MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *			changed the name to jsonO( properties )
+ *		MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *			changed name to jsonNewObject ( properties )
+ *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
 
 Let ( [
-               properties =
-               If (
-                       Right ( properties ; 1 ) = "," ;
-                       Left ( properties ; Length ( properties ) - 1 ) ;
-                       properties
-               )
-       ] ;
-       "{ " & properties & " }"
+		properties =
+		If (
+			Right ( properties ; 1 ) = "," ;
+			Left ( properties ; Length ( properties ) - 1 ) ;
+			properties
+		)
+	] ;
+	"{ " & properties & " }"
 )

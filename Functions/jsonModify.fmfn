@@ -20,6 +20,8 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
  * 		Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com
  * 		 	added error now return "?", actual error is in $json.error
  * 		Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
@@ -151,7 +153,18 @@ List(
 "}"&"¶"&
 ""&"¶"&
 ""&"¶"&
-""
+"" ;
+result = BE_EvaluateJavaScript( js );
+isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "TypeError" ; "URIError") ) );
+$json.error = 
+Case(
+	BE_Version = "?" ; "BaseElements plugin is not available" ;
+	isError; result ; 
+	""
+)
 ];
-BE_EvaluateJavaScript( js )
+Case(	
+	isError; "?" ; 
+	result
+)
 )

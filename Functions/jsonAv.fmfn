@@ -3,20 +3,20 @@
  * jsonAv( value )
  *
  * RETURNS:
- *             prepares a string for inclusion as an element in a JSON array
+ *		prepares a string for inclusion as an element in a JSON array
  *
  * PARAMETERS:
- *             value = string - the value of the Array element
+ *		value = string - the value of the Array element
  *
  * DEPENDENCIES:
- *             BaseElements Plugin version 3.0 or greater
+ *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *             MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
- *                     changed the name to jsonAv( arrayValues )
- *             MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *                     changed name to jsonNewArrayValue ( value )
- *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *		MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *			changed the name to jsonAv( arrayValues )
+ *		MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *			changed name to jsonNewArrayValue ( value )
+ *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */

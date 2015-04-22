@@ -55,6 +55,8 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
  *		MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *			changed the name to "jsonDelete ( json ; keyOrIndex )" and added support for handling an array
  *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
@@ -68,22 +70,22 @@
  *  Works with JSON Objects and JSON Arrays
  *
  * RETURNS:
- *		the value specfied by the keyOrIndex
+ *             the value specfied by the keyOrIndex
  *
  * PARAMETERS:
- *		json - the json string
- *		keyOrIndex - use a "key" for objects, and an "index" for number
+ *             json - the json string
+ *             keyOrIndex - use a "key" for objects, and an "index" for number
  *
  * DEPENDENCIES:
- *		BaseElements Plugin version 3.0 or greater
+ *             BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *		MODIFIED on 2015-APR-21 Daniel Smith, dansmith65@gmail.com
- * 			save error message to $json.error and clear the variable if no error
- * 			return "?" on error
- *		MODIFIED on 2015-FEB-08 Todd Geist, todd@geistinteractive.com
- * 			changed parameter name to "keyOrIndexOrPath"
- *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *             MODIFIED on 2015-APR-21 Daniel Smith, dansmith65@gmail.com
+ *                     save error message to $json.error and clear the variable if no error
+ *                     return "?" on error
+ *             MODIFIED on 2015-FEB-08 Todd Geist, todd@geistinteractive.com
+ *                     changed parameter name to "keyOrIndexOrPath"
+ *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */```##jsonGetKeyList ( json)```/**
@@ -102,6 +104,8 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
  *		MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *			changed name to jsonGetKeyList ( json )
  *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
@@ -145,6 +149,8 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
  *		CREATED on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
@@ -170,6 +176,8 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
  * 		Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com
  * 		 	added error now return "?", actual error is in $json.error
  * 		Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
@@ -245,6 +253,8 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
  *		MODIFED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *			added second parameter to set the white space character
  *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
@@ -266,6 +276,8 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 			return "?" on error and the actual Error is set into $json.error
  *		MODIFIED on 2015-APR-19 Todd Geist, todd@geistinteractive.com
  *		CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
  *
