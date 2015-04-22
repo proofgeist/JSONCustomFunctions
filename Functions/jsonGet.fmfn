@@ -60,8 +60,8 @@ Let ( [
                        result <> "?" ; "" ;
 					   didNotExist ; Quote ( keyOrIndexOrPath ) & " did not exist" ;
                        BE_Version = "?" ; "BaseElements plugin is not available" ;
-                       BE_JSON_Error_Description
-			   )
+                       Substitute( BE_JSON_Error_Description; Char( 10 ); "¶")
+		 )
 
 
 ] ;
