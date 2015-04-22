@@ -78,6 +78,9 @@
  *		BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *		MODIFIED on 2015-APR-21 Daniel Smith, dansmith65@gmail.com
+ * 			save error message to $json.error and clear the variable if no error
+ * 			return "?" on error
  *		MODIFIED on 2015-FEB-08 Todd Geist, todd@geistinteractive.com
  * 			changed parameter name to "keyOrIndexOrPath"
  *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com

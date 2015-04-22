@@ -16,6 +16,9 @@
  *             BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *             MODIFIED on 2015-APR-21 Daniel Smith, dansmith65@gmail.com
+ *                     save error message to $json.error and clear the variable if no error
+ *                     return "?" on error
  *             MODIFIED on 2015-FEB-08 Todd Geist, todd@geistinteractive.com
  *                     changed parameter name to "keyOrIndexOrPath"
  *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
@@ -40,19 +43,29 @@ Let ( [
 
        result = 
                Case (
-                       json = "?" ; BE_JSON_Error_Description  ;
+                       json = "?" ; "?" ;
                        type = "array" and IsEmpty ( keyOrIndexOrPath ) ;"" ;
                        type = "other" ; "" ;                                   
 
                        BE_JSONPath ( json ; path )     
-               ) 
+               ) ;
+
+       didNotExist = 
+               If ( result = "?" and BE_Version ≠ "?" ;
+                      IsEmpty( FilterValues(  jsonGetKeyList ( json ) ; keyOrIndexOrPath  ) )
+               ) ;
+
+       $json.error =
+               Case (
+                       result <> "?" ; "" ;
+					   didNotExist ; Quote ( keyOrIndexOrPath ) & " did not exist" ;
+                       BE_Version = "?" ; "BaseElements plugin is not available" ;
+                       BE_JSON_Error_Description
+			   )
 
 
 ] ;
 
-Case(
-   result <> "?" ; result;
-   IsEmpty( FilterValues(  jsonGetKeyList ( json ) ; keyOrIndexOrPath  ) ) ; "" ; // the keyOrIndexOrPath did not exist
-   BE_JSON_Error_Description
-) 
+If ( didNotExist ; "" ; result )
+
 )
