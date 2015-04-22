@@ -3,51 +3,66 @@
  * jsonDelete ( json ; keyOrIndex )
  *
  * RETURNS:
- *		JSON Object with the specified property removed
+ *	JSON Object with the specified property removed
  *
  * PARAMETERS:property
- *		json  -  the valid JSON string to modify
- *		keyOrIndex -  the key of the property to remove or the index to remove of an array
+ *	json = the valid JSON string to modify
+ *	keyOrIndex = the key of the property to remove or the index to remove of an array
  *
  * DEPENDENCIES:
- *		BaseElements Plugin version 3.0 or greater
+ *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
- * 			return "?" on error and the actual Error is set into $json.error
- *		MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *			changed the name to "jsonDelete ( json ; keyOrIndex )" and added support for handling an array
- *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ *		return "?" on error and the actual Error is set into $json.error
+ *	MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *		changed the name to "jsonDelete ( json ; keyOrIndex )" and added support for handling an array
+ *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
 Let ( [
-		js =
+	js =
 		List (
 			"var json = " & json & " ; " ;
 			"var keyOrIndex = " & Quote ( keyOrIndex ) & " ; " ;
 		) & "¶¶" & 
 
-                "if( Array.isArray(json)  ){" & "¶" &
+		"if( Array.isArray(json)  ){" & "¶" &
 		"    keyOrIndex = parseInt(keyOrIndex);" & "¶" &
 		"    json.splice(keyOrIndex,1)" & "¶" & 
-                "}else{" & "¶" &
+		"}else{" & "¶" &
 		"    delete json[keyOrIndex];" & "¶" & 
-                "}" & "¶" &
+		"}" & "¶" &
 		"json = JSON.stringify(json);" & "¶" & 
-                 "json" & "¶" & "";
-		result = BE_EvaluateJavaScript( js );
-		isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "TypeError" ; "URIError") ) );
-		$json.error = 
-			Case(
-				BE_Version = "?" ; "BaseElements plugin is not available" ;
-				isError; result ; 
-				""
+		"json" & "¶" & ""
+	;
+	result = BE_EvaluateJavaScript ( js ) ;
+	isError = not IsEmpty (
+		FilterValues (
+			LeftWords ( result ; 1 ) ;
+			List (
+				"SyntaxError" ;
+				"RangeError" ;
+				"EvalError" ;
+				"ReferenceError" ;
+				"TypeError" ;
+				"URIError"
 			)
-];
-Case(	
-	isError; "?" ; 
-	result
-)
+		)
+	) ;
+	$json.error = 
+		Case (
+			BE_Version = "?" ;
+			"BaseElements plugin is not available" ;
+			
+			isError ;
+			result ;
+		
+			/* else: clear the error */
+			""
+		)
+] ;
+	If ( isError ; "?" ; result )
 )

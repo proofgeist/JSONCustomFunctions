@@ -2,169 +2,186 @@
  * =====================================
  * jsonModify ( json ; keyOrIndexOrPath ; newValue )
  *
- *   adds or modifies a property on a JSON Object
+ * PURPOSE:
+ *	adds or modifies a property on a JSON Object
  *
  * RETURNS:
- *		the modifed JSON Object
+ *	the modifed JSON Object
  *
  * PARAMETERS:
- *		json -  the valid JSON string modify
- *		keyOrIndexOrPath -  the name of the object property, or array index to add or modify
- *			or the json Path to the property array you want to modify
- *			ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property
- *			on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary
- *						
- *		newValue -  the value of the property or array item
+ *	json = the valid JSON string modify
+ *	keyOrIndexOrPath = the name of the object property, or array index to add or modify
+ *		or the json Path to the property array you want to modify
+ *		ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property
+ *		on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary
+ *	newValue = the value of the property or array item
  *
  * DEPENDENCIES:
- *		BaseElements Plugin version 3.0 or greater
+ *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
- * 			return "?" on error and the actual Error is set into $json.error
- * 		Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com
- * 		 	added error now return "?", actual error is in $json.error
- * 		Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
- * 		 	added the ability to use JSONPath as the keyOrIndexOrPath
- * 		Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
- * 		 	fixed a bug in handling "" as a newValue
- *		MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
- * 		 	changed name to jsonModify ( json ; property ; value )
- *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ *		return "?" on error and the actual Error is set into $json.error
+ *	Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com
+ *		added error now return "?", actual error is in $json.error
+ *	Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
+ *		added the ability to use JSONPath as the keyOrIndexOrPath
+ *	Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
+ *		fixed a bug in handling "" as a newValue
+ *	MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *		changed name to jsonModify ( json ; property ; value )
+ *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
-Let([
-/*-----------------------------*/
 
-quoteNewValue =
-	Case (
-		IsEmpty( newValue ) ; True;
-		 jsonValidate ( newValue ) <> "?" ; False ;
-		GetAsNumber ( newValue ) = GetAsText ( newValue ) ; False ;
-		True
+Let ( [
+	quoteNewValue =
+		Case (
+			IsEmpty ( newValue ) ;
+			True ;
+			
+			jsonValidate ( newValue ) <> "?" ;
+			False ;
+			
+			GetAsNumber ( newValue ) = GetAsText ( newValue ) ;
+			False ;
+			
+			True
+		)
+	;
+	newValue = If ( quoteNewValue ; Quote ( newValue ) ; newValue ) ;
+	keyOrIndexOrPath =
+		If ( keyOrIndexOrPath = Filter ( keyOrIndexOrPath ; "0123456789" ) ;
+			"[" & keyOrIndexOrPath & "]" ;
+			keyOrIndexOrPath
+		)
+	;
+	js =
+		List (
+			"var json = " & json & " ; " ;
+			"var keyOrIndexOrPath = " & Quote(keyOrIndexOrPath) & " ; " ;
+			"var newValue = " & newValue & " ; " ;
+		) &
+		"¶¶"&
+		""&"¶"&
+		"    if(Array.isArray(json)){"&"¶"&
+		"        var obj = {"&"¶"&
+		"            theArray : json"&"¶"&
+		"        }"&"¶"&
+		"		json = obj;"&"¶"&
+		"        keyOrIndexOrPath = \"theArray\" + keyOrIndexOrPath"&"¶"&
+		"    }"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"var r = modify(json, keyOrIndexOrPath, newValue);"&"¶"&
+		""&"¶"&
+		"JSON.stringify(r)"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"function modify(obj, path, value){"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"    path = path.replace('][', '].[')"&"¶"&
+		"    var segments = path.split('.')"&"¶"&
+		""&"¶"&
+		"    var newArray = []"&"¶"&
+		"    segments.forEach(function (prop) {"&"¶"&
+		"        if(prop.indexOf(']')> 0){"&"¶"&
+		"            var prop = prop.split('[');"&"¶"&
+		"            newArray.push(prop[0])"&"¶"&
+		"            newArray.push('[' + prop[1])"&"¶"&
+		""&"¶"&
+		"        }else{"&"¶"&
+		"            newArray.push(prop)"&"¶"&
+		"        }"&"¶"&
+		""&"¶"&
+		"    })"&"¶"&
+		"    segments = newArray"&"¶"&
+		"    delete newArray"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"    var evalPath = \"obj\";"&"¶"&
+		"    segments.forEach(function (segment , i) {"&"¶"&
+		"        var nextSegment = segments[i+1]"&"¶"&
+		"        var nextSegmentType"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"        if (!nextSegment){"&"¶"&
+		"            nextSegment = 'value'"&"¶"&
+		"            nextSegmentType = ''"&"¶"&
+		""&"¶"&
+		"        }else if(nextSegment.indexOf('[')===0){"&"¶"&
+		"            nextSegment = '[]'"&"¶"&
+		"            nextSegmentType = \"array\""&"¶"&
+		"        }else{"&"¶"&
+		"            nextSegment = '{}'"&"¶"&
+		"            nextSegmentType = \"object\""&"¶"&
+		"        }"&"¶"&
+		""&"¶"&
+		"        if( segment.indexOf('[')===0 ){"&"¶"&
+		"            evalPath = evalPath + segment"&"¶"&
+		"        }else"&"¶"&
+		"        {"&"¶"&
+		"            if(segment !=''){"&"¶"&
+		"                evalPath = evalPath + '.' + segment"&"¶"&
+		"            }"&"¶"&
+		""&"¶"&
+		"        }"&"¶"&
+		""&"¶"&
+		"        var propsOriginalValue = eval(evalPath);"&"¶"&
+		""&"¶"&
+		"        if(!propsOriginalValue){"&"¶"&
+		"            eval(evalPath+'='+ nextSegment )"&"¶"&
+		"        }else if(Array.isArray(propsOriginalValue ) && 'array' != nextSegmentType){"&"¶"&
+		"            eval(evalPath+'='+ nextSegment )"&"¶"&
+		"        }else if( typeof propsOriginalValue != nextSegmentType && !Array.isArray(propsOriginalValue ) ){"&"¶"&
+		"            eval(evalPath+'='+ nextSegment )"&"¶"&
+		"        }"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"    })"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"    if(Array.isArray(obj.theArray)){"&"¶"&
+		"        return obj.theArray"&"¶"&
+		"    }else{"&"¶"&
+		"        return obj"&"¶"&
+		"    }"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		"}"&"¶"&
+		""&"¶"&
+		""&"¶"&
+		""
+	;
+	result = BE_EvaluateJavaScript ( js ) ;
+	isError = not IsEmpty (
+		FilterValues (
+			LeftWords ( result ; 1 ) ;
+			List (
+				"SyntaxError" ;
+				"RangeError" ;
+				"EvalError" ;
+				"ReferenceError" ;
+				"TypeError" ;
+				"URIError"
+			)
+		)
 	) ;
-$json.error = "";  // in case it was set above
-newValue = If ( quoteNewValue ; Quote ( newValue ) ; newValue ) ;
-keyOrIndexOrPath =
-	Case(
-             	keyOrIndexOrPath = Filter(keyOrIndexOrPath; "0123456789") ; "[" & keyOrIndexOrPath & "]" ;
-		keyOrIndexOrPath
-	);
-
-
-
-/*-----------------------------*/
-js =
-List(
-"var json = " & json & " ; " ;
-"var keyOrIndexOrPath = " & Quote(keyOrIndexOrPath) & " ; " ;
-"var newValue = " & newValue & " ; " ;
-)&
-"¶¶"&
-""&"¶"&
-"    if(Array.isArray(json)){"&"¶"&
-"        var obj = {"&"¶"&
-"            theArray : json"&"¶"&
-"        }"&"¶"&
-"		json = obj;"&"¶"&
-"        keyOrIndexOrPath = \"theArray\" + keyOrIndexOrPath"&"¶"&
-"    }"&"¶"&
-""&"¶"&
-""&"¶"&
-"var r = modify(json, keyOrIndexOrPath, newValue);"&"¶"&
-""&"¶"&
-"JSON.stringify(r)"&"¶"&
-""&"¶"&
-""&"¶"&
-""&"¶"&
-"function modify(obj, path, value){"&"¶"&
-""&"¶"&
-""&"¶"&
-""&"¶"&
-"    path = path.replace('][', '].[')"&"¶"&
-"    var segments = path.split('.')"&"¶"&
-""&"¶"&
-"    var newArray = []"&"¶"&
-"    segments.forEach(function (prop) {"&"¶"&
-"        if(prop.indexOf(']')> 0){"&"¶"&
-"            var prop = prop.split('[');"&"¶"&
-"            newArray.push(prop[0])"&"¶"&
-"            newArray.push('[' + prop[1])"&"¶"&
-""&"¶"&
-"        }else{"&"¶"&
-"            newArray.push(prop)"&"¶"&
-"        }"&"¶"&
-""&"¶"&
-"    })"&"¶"&
-"    segments = newArray"&"¶"&
-"    delete newArray"&"¶"&
-""&"¶"&
-""&"¶"&
-"    var evalPath = \"obj\";"&"¶"&
-"    segments.forEach(function (segment , i) {"&"¶"&
-"        var nextSegment = segments[i+1]"&"¶"&
-"        var nextSegmentType"&"¶"&
-""&"¶"&
-""&"¶"&
-"        if (!nextSegment){"&"¶"&
-"            nextSegment = 'value'"&"¶"&
-"            nextSegmentType = ''"&"¶"&
-""&"¶"&
-"        }else if(nextSegment.indexOf('[')===0){"&"¶"&
-"            nextSegment = '[]'"&"¶"&
-"            nextSegmentType = \"array\""&"¶"&
-"        }else{"&"¶"&
-"            nextSegment = '{}'"&"¶"&
-"            nextSegmentType = \"object\""&"¶"&
-"        }"&"¶"&
-""&"¶"&
-"        if( segment.indexOf('[')===0 ){"&"¶"&
-"            evalPath = evalPath + segment"&"¶"&
-"        }else"&"¶"&
-"        {"&"¶"&
-"            if(segment !=''){"&"¶"&
-"                evalPath = evalPath + '.' + segment"&"¶"&
-"            }"&"¶"&
-""&"¶"&
-"        }"&"¶"&
-""&"¶"&
-"        var propsOriginalValue = eval(evalPath);"&"¶"&
-""&"¶"&
-"        if(!propsOriginalValue){"&"¶"&
-"            eval(evalPath+'='+ nextSegment )"&"¶"&
-"        }else if(Array.isArray(propsOriginalValue ) && 'array' != nextSegmentType){"&"¶"&
-"            eval(evalPath+'='+ nextSegment )"&"¶"&
-"        }else if( typeof propsOriginalValue != nextSegmentType && !Array.isArray(propsOriginalValue ) ){"&"¶"&
-"            eval(evalPath+'='+ nextSegment )"&"¶"&
-"        }"&"¶"&
-""&"¶"&
-""&"¶"&
-"    })"&"¶"&
-""&"¶"&
-""&"¶"&
-"    if(Array.isArray(obj.theArray)){"&"¶"&
-"        return obj.theArray"&"¶"&
-"    }else{"&"¶"&
-"        return obj"&"¶"&
-"    }"&"¶"&
-""&"¶"&
-""&"¶"&
-"}"&"¶"&
-""&"¶"&
-""&"¶"&
-"" ;
-result = BE_EvaluateJavaScript( js );
-isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "TypeError" ; "URIError") ) );
-$json.error = 
-Case(
-	BE_Version = "?" ; "BaseElements plugin is not available" ;
-	isError; result ; 
-	""
-)
-];
-Case(	
-	isError; "?" ; 
-	result
-)
+	$json.error = 
+		Case (
+			BE_Version = "?" ;
+			"BaseElements plugin is not available" ;
+			
+			isError ;
+			result ;
+		
+			/* else: clear the error */
+			""
+		)
+] ;
+	If ( isError ; "?" ; result )
 )

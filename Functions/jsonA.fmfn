@@ -3,32 +3,31 @@
  * jsonA ( arrayValues )
  *
  * RETURNS:
- *		wraps the items in "[" and "]" removes trailing coma
+ *	wraps the items in "[" and "]" removes trailing coma
  *
  * PARAMETERS:
- *		arrayValues = a series of items created with the cf jsonItem
+ *	arrayValues = a series of items created with the cf jsonItem
  *
  * DEPENDENCIES:
- *		None
+ *	None
  *
  * HISTORY:
- *		MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
- *			changed the name to jsonA( arrayValues )
- *		MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *			changed the name to jsonNewArray ( arrayValues )
- *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *	MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *		changed the name to jsonA( arrayValues )
+ *	MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *		changed the name to jsonNewArray ( arrayValues )
+ *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
-
 Let ( [
-		arrayValues =
-		If (
-			Right ( arrayValues ; 1 ) = "," ;
-			Left ( arrayValues ; Length ( arrayValues ) - 1 ) ;
-			arrayValues
-		)
-	] ;
+	arrayValues =
+	If (
+		Right ( arrayValues ; 1 ) = "," ;
+		Left ( arrayValues ; Length ( arrayValues ) - 1 ) ;
+		arrayValues
+	)
+] ;
 	"[ " & arrayValues & " ]"
 )

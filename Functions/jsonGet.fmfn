@@ -2,70 +2,87 @@
  * =====================================
  * jsonGet ( json ; keyOrIndexOrPath )
  *
- *  a convenience function that handles the most comm JSONPath cases
- *  Works with JSON Objects and JSON Arrays
+ * PURPOSE:
+ *	a convenience function that handles the most common JSONPath cases
+ *	Works with JSON Objects and JSON Arrays
  *
  * RETURNS:
- *             the value specfied by the keyOrIndex
+ *	the value specfied by the keyOrIndex
  *
  * PARAMETERS:
- *             json - the json string
- *             keyOrIndex - use a "key" for objects, and an "index" for number
+ *	json = the json string
+ *	keyOrIndex = use a "key" for objects, and an "index" for number
  *
  * DEPENDENCIES:
- *             BaseElements Plugin version 3.0 or greater
+ *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *             MODIFIED on 2015-APR-21 Daniel Smith, dansmith65@gmail.com
- *                     save error message to $json.error and clear the variable if no error
- *                     return "?" on error
- *             MODIFIED on 2015-FEB-08 Todd Geist, todd@geistinteractive.com
- *                     changed parameter name to "keyOrIndexOrPath"
- *             CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *	MODIFIED on 2015-APR-21 Daniel Smith, dansmith65@gmail.com
+ *		save error message to $json.error and clear the variable if no error
+ *		return "?" on error
+ *	MODIFIED on 2015-FEB-08 Todd Geist, todd@geistinteractive.com
+ *		changed parameter name to "keyOrIndexOrPath"
+ *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
 Let ( [
-       json = BE_JSONPath ( json ; "$" ) ;  //normalize the json
-       start = Left ( json ; 1 ) ;
-       end = Right ( json ; 1 ) ;
-       type = 
-               Case ( 
-                       ( start = "[" ) and ( end = "]" ) ; "array" ;
-                       ( start = "{" ) and ( end = "}" ) ; "object" ;
-                       "other"
-               ) ;
-       keyOrIndexOrPath =
-               Case ( type = "array" ; GetAsNumber ( keyOrIndexOrPath ) ; keyOrIndexOrPath ) ;
-       path = "$" &
-               Case ( type = "array" ; "[" & keyOrIndexOrPath & "]" ; "." & keyOrIndexOrPath );
-
-       result = 
-               Case (
-                       json = "?" ; "?" ;
-                       type = "array" and IsEmpty ( keyOrIndexOrPath ) ;"" ;
-                       type = "other" ; "" ;                                   
-
-                       BE_JSONPath ( json ; path )     
-               ) ;
-
-       didNotExist = 
-               If ( result = "?" and BE_Version ≠ "?" ;
-                      IsEmpty( FilterValues(  jsonGetKeyList ( json ) ; keyOrIndexOrPath  ) )
-               ) ;
-
-       $json.error =
-               Case (
-                       result <> "?" ; "" ;
-					   didNotExist ; Quote ( keyOrIndexOrPath ) & " did not exist" ;
-                       BE_Version = "?" ; "BaseElements plugin is not available" ;
-                       Substitute( BE_JSON_Error_Description; Char( 10 ); "¶")
-		 )
-
-
+	json = BE_JSONPath ( json ; "$" ) ;  // normalize the json
+	start = Left ( json ; 1 ) ;
+	end = Right ( json ; 1 ) ;
+	type = 
+		Case (
+				( start = "[" ) and ( end = "]" ) ;
+				"array" ;
+				
+				( start = "{" ) and ( end = "}" ) ;
+				"object" ;
+				
+				"other"
+		)
+	;
+	keyOrIndexOrPath = If ( type = "array" ;
+		GetAsNumber ( keyOrIndexOrPath ) ;
+		keyOrIndexOrPath
+	) ;
+	path = "$" & If ( type = "array" ;
+		"[" & keyOrIndexOrPath & "]" ;
+		"." & keyOrIndexOrPath
+	) ;
+	result = 
+		Case (
+			json = "?" ;
+			"?" ;
+			
+			type = "array" and IsEmpty ( keyOrIndexOrPath ) ;
+			"" ;
+			
+			type = "other" ;
+			"" ;
+			
+			BE_JSONPath ( json ; path )
+		)
+	;
+	didNotExist = If ( result = "?" and BE_Version ≠ "?" ;
+		IsEmpty ( FilterValues (
+			jsonGetKeyList ( json ) ;
+			keyOrIndexOrPath
+		) )
+	) ;
+	$json.error =
+		Case (
+			result <> "?" ;
+			"" ;
+			
+			didNotExist ;
+			Quote ( keyOrIndexOrPath ) & " did not exist" ;
+			
+			BE_Version = "?" ;
+			"BaseElements plugin is not available" ;
+			
+			Substitute ( BE_JSON_Error_Description ; Char ( 10 ) ; "¶" )
+		)
 ] ;
-
-If ( didNotExist ; "" ; result )
-
+	If ( didNotExist ; "" ; result )
 )

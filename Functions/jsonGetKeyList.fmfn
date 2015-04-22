@@ -2,42 +2,59 @@
  * =====================================
  * jsonGetKeyList ( json )
  *
- *   gets the list of member properties from a JSON object.  It only goes one level deep
+ * PURPOSE:
+ *	gets the list of member properties from a JSON object.  It only goes one level deep
  *
  * RETURNS:
- *		the list of property names
+ *	the list of property names
  *
  * PARAMETERS:
- *		json  -  the valid JSON string to get the properties from
+ *	json = the valid JSON string to get the properties from
  *
  * DEPENDENCIES:
- *		BaseElements Plugin version 3.0 or greater
+ *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
- * 			return "?" on error and the actual Error is set into $json.error
- *		MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *			changed name to jsonGetKeyList ( json )
- *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ * 		return "?" on error and the actual Error is set into $json.error
+ *	MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *		changed name to jsonGetKeyList ( json )
+ *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
 Let ( [
-		js = "var json = " & json & " ; " & "¶¶" & "" & "¶" & "" & "¶" & "" &
+	js =
+		"var json = " & json & " ; " & "¶¶" & "" & "¶" & "" & "¶" & "" &
 		"¶" & "var keys = Object.keys(json);" & "¶" & "keys = keys.join('\r');" &
-		"¶" & "keys" & "¶" & "";
-		result = BE_EvaluateJavaScript( js );
-		isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "TypeError" ; "URIError") ) );
-		$json.error = 
-			Case(
-				BE_Version = "?" ; "BaseElements plugin is not available" ;
-				isError; result ; 
-				""
+		"¶" & "keys" & "¶" & ""
+	;
+	result = BE_EvaluateJavaScript ( js ) ;
+	isError = not IsEmpty (
+		FilterValues (
+			LeftWords ( result ; 1 ) ;
+			List (
+				"SyntaxError" ;
+				"RangeError" ;
+				"EvalError" ;
+				"ReferenceError" ;
+				"TypeError" ;
+				"URIError"
 			)
-];
-Case(	
-	isError; "?" ; 
-	result
-)
+		)
+	) ;
+	$json.error = 
+		Case (
+			BE_Version = "?" ;
+			"BaseElements plugin is not available" ;
+			
+			isError ;
+			result ;
+		
+			/* else: clear the error */
+			""
+		)
+] ;
+	If ( isError ; "?" ; result )
 )

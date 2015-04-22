@@ -2,54 +2,71 @@
  * =====================================
  * jsonPrettyPrint ( json ; whiteSpace )
  *
- *   Pretty Prints a json Object with an indent.
+ * PURPOSE:
+ *	Pretty Prints a json Object with an indent.
  *
  * RETURNS:
- *		the prettified JSON Object
+ *	the prettified JSON Object
  *
  * PARAMETERS:
- *		json - the json string to pretty print
- *		whiteSpace - string - the character or characters to use as whiteSpace
+ *	json = the json string to pretty print
+ *	whiteSpace = the character or characters to use as whiteSpace
  *
  * DEPENDENCIES:
- *		BaseElements Plugin version 3.0 or greater
+ *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
- * 			return "?" on error and the actual Error is set into $json.error
- *		MODIFED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
- *			added second parameter to set the white space character
- *		CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ *		return "?" on error and the actual Error is set into $json.error
+ *	MODIFED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
+ *		added second parameter to set the white space character
+ *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
-Let([
-
-js =
-List(
-"var json = " & json & " ; " ;
-"var whiteSpace = " & Quote(whiteSpace) & " ; " ;
-)&
-"¶¶"&
-"if (whiteSpace === \"\"){"&"¶"&
-"    whiteSpace = \"  \""&"¶"&
-"}"&"¶"&
-""&"¶"&
-"json = JSON.stringify(json, null , whiteSpace);"&"¶"&
-"";
-
-result = BE_EvaluateJavaScript( js );
-isError = not IsEmpty( FilterValues(LeftWords( result ; 1 ) ; List( "SyntaxError"; "RangeError"; "EvalError"; "ReferenceError" ; "TypeError" ; "URIError") ) );
-$json.error = 
-Case(
-	BE_Version = "?" ; "BaseElements plugin is not available" ;
-	isError; result ; 
-	""
-)
-];
-Case(	
-	isError; "?" ; 
-	Substitute( result ;Char(10) ; "¶" )
-)
+Let( [
+	js =
+		List (
+			"var json = " & json & " ; " ;
+			"var whiteSpace = " & Quote(whiteSpace) & " ; " ;
+		) &
+		"¶¶"&
+		"if (whiteSpace === \"\"){"&"¶"&
+		"    whiteSpace = \"  \""&"¶"&
+		"}"&"¶"&
+		""&"¶"&
+		"json = JSON.stringify(json, null , whiteSpace);"&"¶"&
+		""
+	;
+	result = BE_EvaluateJavaScript ( js ) ;
+	isError = not IsEmpty (
+		FilterValues (
+			LeftWords ( result ; 1 ) ;
+			List (
+				"SyntaxError" ;
+				"RangeError" ;
+				"EvalError" ;
+				"ReferenceError" ;
+				"TypeError" ;
+				"URIError"
+			)
+		)
+	) ;
+	$json.error = 
+		Case (
+			BE_Version = "?" ;
+			"BaseElements plugin is not available" ;
+			
+			isError ;
+			result ;
+		
+			/* else: clear the error */
+			""
+		)
+] ;
+	If ( isError ;
+		"?" ;
+		Substitute ( result ; Char ( 10 ) ; "¶" )
+	)
 )

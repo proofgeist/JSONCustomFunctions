@@ -2,40 +2,40 @@
  * =====================================
  * jsonValidate ( json )
  *
- *   validates a JSON String
+ * PURPOSE:
+ *	validates a JSON String
  *
  * RETURNS:
- *		1 if valid, and an error string if invalid. the errorString will equal FALSE
+ *	1 if valid, "?" if invalid.
  *
  * PARAMETERS:
- *		json - the json string to validate
+ *	json = the json string to validate
  *
  * DEPENDENCIES:
- *		BaseElements Plugin version 3.0 or greater
+ *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *		MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
- * 			return "?" on error and the actual Error is set into $json.error
- *		MODIFIED on 2015-APR-19 Todd Geist, todd@geistinteractive.com
- *		CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ *		return "?" on error and the actual Error is set into $json.error
+ *	MODIFIED on 2015-APR-19 Todd Geist, todd@geistinteractive.com
+ *	CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
  */
 
-Let([
-$json.error = "";
-json = BE_JSONPath ( json ; "$" );
-$json.error = 
-   Case(  
-         BE_Version = "?" ; "BaseElements plugin is not available" ;
-         json = "?" ; Substitute( BE_JSON_Error_Description; Char( 10 ); "¶");
-         ""
-)
-
-];
-
-Case(
-   json = "?" ; json ;
-   1
-)
+Let ( [
+	json = BE_JSONPath ( json ; "$" ) ;
+	$json.error =
+		Case (
+			BE_Version = "?" ;
+			"BaseElements plugin is not available" ;
+			
+			json = "?" ;
+			Substitute ( BE_JSON_Error_Description ; Char ( 10 ) ; "¶" ) ;
+		
+			/* else: clear the error */
+			""
+		)
+] ;
+	If ( json = "?" ; json ; 1 )
 )
