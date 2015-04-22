@@ -33,7 +33,7 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *	MODIFIED on 2015-JAN-24 Daniel Smith, dansmith65@gmail.com
+ *	MODIFIED on 2015-APR-22 Daniel Smith, dansmith65@gmail.com
  *		allow the value to be json with leading/trailing whitespace
  *		return "?" on error and store error message in $json.error
  *	MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
@@ -133,6 +133,8 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ *		return "?" on error and the actual Error is set into $json.error
  *	CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
@@ -238,7 +240,7 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *	MODIFIED on 2015-JAN-24 Daniel Smith, dansmith65@gmail.com
+ *	MODIFIED on 2015-APR-22 Daniel Smith, dansmith65@gmail.com
  *		allow the value to be json with leading/trailing whitespace
  *		allow the key to contain any special characters
  *		return "?" on error and store error message in $json.error

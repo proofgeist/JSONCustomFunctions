@@ -15,6 +15,8 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ *		return "?" on error and the actual Error is set into $json.error
  *	CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *
  * =====================================

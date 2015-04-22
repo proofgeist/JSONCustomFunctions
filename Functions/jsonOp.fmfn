@@ -16,7 +16,7 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
- *	MODIFIED on 2015-JAN-24 Daniel Smith, dansmith65@gmail.com
+ *	MODIFIED on 2015-APR-22 Daniel Smith, dansmith65@gmail.com
  *		allow the value to be json with leading/trailing whitespace
  *		allow the key to contain any special characters
  *		return "?" on error and store error message in $json.error
