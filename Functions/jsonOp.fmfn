@@ -3,7 +3,7 @@
  * jsonOp ( key ; value )
  *
  * PURPOSE:
- *	Formats a key value pair as an JSON object property
+ *	Formats a key value pair as a JSON object property
  *
  * RETURNS:
  *	the key value pair
@@ -16,6 +16,10 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2015-JAN-24 Daniel Smith, dansmith65@gmail.com
+ *		allow the value to be json with leading/trailing whitespace
+ *		allow the key to contain any special characters
+ *		return "?" on error and store error message in $json.error
  *	MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
  *		changed the name to jsonOp ( key ; value )
  *	CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
@@ -25,8 +29,38 @@
  * =====================================
  */
 
-If (
-	Left ( value ; 1 ) = "[" and Right ( value ; 1 ) = "]" or Left ( value ; 1 ) = "{" and Right ( value ; 1 ) = "}" ;
-	Quote ( key ) & ":" & value ;
-	BE_JSON_Encode ( key ; value )
-) & ","
+Let ( [
+	json = BE_JSONPath ( value ; "$" ) ;  // attempt to read value as json
+	firstAndLast = Left ( json ; 1 ) & Right ( json ; 1 ) ;
+	valueIsJson = firstAndLast = "{}" or firstAndLast = "[]" ;
+	encoded = If ( valueIsJson ;
+		BE_JSON_Encode ( key ; "" ) ; // only encode the key
+		BE_JSON_Encode ( key ; value )
+	) ;
+	isError = not IsEmpty ( BE_JSON_Error_Description ) ;
+	result =
+		Case (
+			isError ;
+			"?" ;
+			
+			valueIsJson ;
+			Left (  // extract the encoded key
+				encoded ;
+				Position ( encoded ; ":" ; Length ( encoded ) ; -1 ) - 1
+			) & ":" & json & "," ;
+			
+			/* else */
+			encoded & ","
+		)
+	;
+	$json.error = If ( isError ;
+		If ( BE_Version = "?" ;
+			"BaseElements plugin is not available" ;
+			Substitute ( BE_JSON_Error_Description ; Char ( 10 ) ; "¶" )
+		) ;
+		/* else: don't modify the error */
+		$json.error
+	)
+] ;
+	result
+)
