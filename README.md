@@ -65,6 +65,27 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
+ */```##jsonFilter ( json;expression)```/**
+ * =====================================
+ * jsonFilter ( json )
+ *
+ * PURPOSE:
+ *	filters a JSON Array of Objects
+ *
+ * RETURNS:
+ *	the new json Array
+ *
+ * PARAMETERS:
+ *	json = the json string to validate
+ *	expression = the javascript snippet that will be used to do the filter. It should shart with the property you are using in your filter
+ *
+ * DEPENDENCIES:
+ *	BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *	CREATED on 2015-AUG-08 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
  */```##jsonGet ( json;keyOrIndexOrPath)```/**
  * =====================================
  * jsonGet ( json ; keyOrIndexOrPath )
