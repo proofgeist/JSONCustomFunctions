@@ -206,6 +206,8 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2015-AUG-15 Todd Geist, todd@geistinteractive.com
+ *		forced numbers longer than 17 digits to text to get around JavaScript limits
  *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
  *		return "?" on error and the actual Error is set into $json.error
  *	Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com
@@ -255,7 +257,8 @@
  *
  * PARAMETERS:
  *	key = the name of the property
- *	value = the value of the property
+ *	value = the value of the property.  IMPORTANT, numbers longer
+ *	then 16 digits MUST be wrapped with getAsText(  ).
  *
  * DEPENDENCIES:
  *	BaseElements Plugin version 3.0 or greater

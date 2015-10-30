@@ -10,7 +10,8 @@
  *
  * PARAMETERS:
  *	key = the name of the property
- *	value = the value of the property
+ *	value = the value of the property.  IMPORTANT, numbers longer
+ *	then 16 digits MUST be wrapped with getAsText(  ).
  *
  * DEPENDENCIES:
  *	BaseElements Plugin version 3.0 or greater
