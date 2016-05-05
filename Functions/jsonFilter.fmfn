@@ -1,6 +1,6 @@
 /**
  * =====================================
- * jsonFilter ( json )
+ * jsonFilter ( json ; expression )
  *
  * PURPOSE:
  *	filters a JSON Array of Objects
