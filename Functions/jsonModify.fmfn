@@ -20,6 +20,8 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2016-SEP-10 Todd Geist, todd@geistinteractive.com
+ *		fixed issue # 37. handles "-" correctly.
  *	MODIFIED on 2015-AUG-15 Todd Geist, todd@geistinteractive.com
  *		forced numbers longer than 17 digits to text to get around JavaScript limits
  *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
@@ -128,7 +130,7 @@ Let ( [
 		"        }else"&"¶"&
 		"        {"&"¶"&
 		"            if(segment !=''){"&"¶"&
-		"                evalPath = evalPath + '.' + segment"&"¶"&
+		"                evalPath = evalPath + '[\"' + segment+'\"]'"&"¶"&
 		"            }"&"¶"&
 		""&"¶"&
 		"        }"&"¶"&
