@@ -1,4 +1,6 @@
-##jsonA ( arrayValues)```/**
+##jsonA ( arrayValues)
+```
+/**
  * =====================================
  * jsonA ( arrayValues )
  *
@@ -19,7 +21,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonAv ( value)```/**
+ */
+```
+##jsonAv ( value)
+```
+/**
  * =====================================
  * jsonAv( value )
  *
@@ -43,7 +49,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonDelete ( json;keyOrIndex)```/**
+ */
+```
+##jsonDelete ( json;keyOrIndex)
+```
+/**
  * =====================================
  * jsonDelete ( json ; keyOrIndex )
  *
@@ -65,7 +75,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonFilter ( json;expression)```/**
+ */
+```
+##jsonFilter ( json;expression)
+```
+/**
  * =====================================
  * jsonFilter ( json )
  *
@@ -86,7 +100,11 @@
  *	CREATED on 2015-AUG-08 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonGet ( json;keyOrIndexOrPath)```/**
+ */
+```
+##jsonGet ( json;keyOrIndexOrPath)
+```
+/**
  * =====================================
  * jsonGet ( json ; keyOrIndexOrPath )
  *
@@ -113,7 +131,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonGetKeyList ( json)```/**
+ */
+```
+##jsonGetKeyList ( json)
+```
+/**
  * =====================================
  * jsonGetKeyList ( json )
  *
@@ -137,7 +159,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonGetValueList ( json)```/**
+ */
+```
+##jsonGetValueList ( json)
+```
+/**
  * =====================================
  * jsonGetValueList ( json )
  *
@@ -159,7 +185,11 @@
  *	CREATED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonMerge ( target;source)```/**
+ */
+```
+##jsonMerge ( target;source)
+```
+/**
  * =====================================
  * jsonMerge ( target ; source )
  *
@@ -184,8 +214,54 @@
  *	CREATED on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonModify ( json;keyOrIndexOrPath;newValue)```/** * ===================================== * jsonModify ( json ; keyOrIndexOrPath ; newValue ) * * PURPOSE: *	adds or modifies a property on a JSON Object * * RETURNS: *	the modifed JSON Object * * PARAMETERS: *	json = the valid JSON string modify *	keyOrIndexOrPath = the name of the object property, or array index to add or modify *		or the json Path to the property array you want to modify *		ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property *		on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary *	newValue = the value of the property or array item * * DEPENDENCIES: *	BaseElements Plugin version 3.0 or greater * * HISTORY:
- *	MODIFIED on 2016-SEP-10 Todd Geist, todd@geistinteractive.com *		fixed issue # 37. handles "-" correctly. *	MODIFIED on 2015-AUG-15 Todd Geist, todd@geistinteractive.com *		forced numbers longer than 17 digits to text to get around JavaScript limits *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com *		return "?" on error and the actual Error is set into $json.error *	Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com *		added error now return "?", actual error is in $json.error *	Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com *		added the ability to use JSONPath as the keyOrIndexOrPath *	Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com *		fixed a bug in handling "" as a newValue *	MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com *		changed name to jsonModify ( json ; property ; value ) *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com * * ===================================== */```##jsonO ( properties)```/**
+ */
+```
+##jsonModify ( json;keyOrIndexOrPath;newValue)
+```
+/**
+ * =====================================
+ * jsonModify ( json ; keyOrIndexOrPath ; newValue )
+ *
+ * PURPOSE:
+ *	adds or modifies a property on a JSON Object
+ *
+ * RETURNS:
+ *	the modifed JSON Object
+ *
+ * PARAMETERS:
+ *	json = the valid JSON string modify
+ *	keyOrIndexOrPath = the name of the object property, or array index to add or modify
+ *		or the json Path to the property array you want to modify
+ *		ex: 'jsonModify($json; "invoice.line[2]qty" ; 2)' would set the "qty" property
+ *		on the 3rd object on the "Line" array to 2.  All inbetween props are created as necessary
+ *	newValue = the value of the property or array item
+ *
+ * DEPENDENCIES:
+ *	BaseElements Plugin version 3.0 or greater
+ *
+ * HISTORY:
+ *	MODIFIED on 2016-SEP-10 Todd Geist, todd@geistinteractive.com
+ *		fixed issue # 37. handles "-" correctly.
+ *	MODIFIED on 2015-AUG-15 Todd Geist, todd@geistinteractive.com
+ *		forced numbers longer than 17 digits to text to get around JavaScript limits
+ *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
+ *		return "?" on error and the actual Error is set into $json.error
+ *	Modified on 2015-APR-19 Todd Geist, todd@geistinteractive.com
+ *		added error now return "?", actual error is in $json.error
+ *	Modified on 2015-FEB-03 Todd Geist, todd@geistinteractive.com
+ *		added the ability to use JSONPath as the keyOrIndexOrPath
+ *	Modified on 2015-JAN-26 Todd Geist, todd@geistinteractive.com
+ *		fixed a bug in handling "" as a newValue
+ *	MODIFIED on 2015-JAN-24 Todd Geist, todd@geistinteractive.com
+ *		changed name to jsonModify ( json ; property ; value )
+ *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
+ *
+ * =====================================
+ */
+```
+##jsonO ( properties)
+```
+/**
  * =====================================
  * jsonO( properties )
  *
@@ -209,7 +285,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonOp ( key;value)```/**
+ */
+```
+##jsonOp ( key;value)
+```
+/**
  * =====================================
  * jsonOp ( key ; value )
  *
@@ -239,7 +319,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonPrettyPrint ( json;whiteSpace)```/**
+ */
+```
+##jsonPrettyPrint ( json;whiteSpace)
+```
+/**
  * =====================================
  * jsonPrettyPrint ( json ; whiteSpace )
  *
@@ -264,7 +348,11 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonValidate ( json)```/**
+ */
+```
+##jsonValidate ( json)
+```
+/**
  * =====================================
  * jsonValidate ( json )
  *
@@ -287,4 +375,28 @@
  *	CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```
+ */
+```
+##jsonGfn ( field)
+```
+/**
+ * =====================================
+ * jsonGfn ( field )
+ *
+ * PURPOSE:
+ *  returns the name of the field without quotes. Optional helper function to use field names and dynamic key names.
+ *
+ * RETURNS:
+ *  supplied field name
+ *
+ * PARAMETERS:
+ *  field = the FileMaker field name in TABLE::field format
+ *
+ * DEPENDENCIES:
+ *  None
+ *
+ * HISTORY:
+ *  CREATED on 2017-SEP-30 Daniel Smith, daniel@databee.com.au
+ *
+ * =====================================
+ */
