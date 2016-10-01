@@ -28,19 +28,3 @@ b = Substitute ( a ; "::" ; ¶ )
   GetValue ( b ; 2 )
 
 )
-
-
-jsonPrettyPrint (
-	jsonO (
-		jsonOp ("model";"value") &
-		jsonOp ("version";"value") &
-		jsonOp ("practice";"value") &
-		"\"encounter\" :" &
-		jsonA (
-			ExecuteSQL( "SELECT " & GFN(ENCOUNTER::json) & " FROM" 
-					& GTN (ENCOUNTER::UUID) 
-					& "WHERE" & GFN (ENCOUNTER::FLAGsync) & "IS NULL" 
-					; "" ;"" )
-		)
-	)
-;"")
