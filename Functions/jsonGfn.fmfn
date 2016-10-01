@@ -1,0 +1,46 @@
+/**
+ * =====================================
+ * jsonGfn ( field )
+ *
+ * PURPOSE:
+ *  returns the name of the field without quotes. Optional helper function to use field names and dynamic key names.
+ *
+ * RETURNS:
+ *  supplied field name
+ *
+ * PARAMETERS:
+ *  field = the FileMaker field name in TABLE::field format
+ *
+ * DEPENDENCIES:
+ *  None
+ *
+ * HISTORY:
+ *  CREATED on 2017-SEP-30 Daniel Smith, daniel@databee.com.au
+ *
+ * =====================================
+ */
+
+Let ( [ 
+a = GetFieldName ( field ) ; 
+b = Substitute ( a ; "::" ; ¶ ) 
+] ; 
+
+  GetValue ( b ; 2 )
+
+)
+
+
+jsonPrettyPrint (
+	jsonO (
+		jsonOp ("model";"value") &
+		jsonOp ("version";"value") &
+		jsonOp ("practice";"value") &
+		"\"encounter\" :" &
+		jsonA (
+			ExecuteSQL( "SELECT " & GFN(ENCOUNTER::json) & " FROM" 
+					& GTN (ENCOUNTER::UUID) 
+					& "WHERE" & GFN (ENCOUNTER::FLAGsync) & "IS NULL" 
+					; "" ;"" )
+		)
+	)
+;"")
