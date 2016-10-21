@@ -17,6 +17,7 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2016-OCT-21 todd@geistinteteractive.com fixes Issue #35
  *	MODIFIED on 2015-APR-21 Daniel Smith, dansmith65@gmail.com
  *		save error message to $json.error and clear the variable if no error
  *		return "?" on error
@@ -31,6 +32,7 @@ Let ( [
 	json = BE_JSONPath ( json ; "$" ) ;  // normalize the json
 	start = Left ( json ; 1 ) ;
 	end = Right ( json ; 1 ) ;
+	pathStartsWithArray = Left(keyOrIndexOrPath;1) = "[";
 	type = 
 		Case (
 				( start = "[" ) and ( end = "]" ) ;
@@ -42,13 +44,14 @@ Let ( [
 				"other"
 		)
 	;
-	keyOrIndexOrPath = If ( type = "array" ;
+	keyOrIndexOrPath = If ( type = "array" and not pathStartsWithArray ;
 		GetAsNumber ( keyOrIndexOrPath ) ;
 		keyOrIndexOrPath
 	) ;
-	path = "$" & If ( type = "array" ;
-		"[" & keyOrIndexOrPath & "]" ;
-		"." & keyOrIndexOrPath
+	path = "$" & Case ( 
+ 				type = "array" and not pathStartsWithArray ; "[" & keyOrIndexOrPath & "]" ; 
+				type = "array" and pathStartsWithArray ; keyOrIndexOrPath ;
+				"." & keyOrIndexOrPath
 	) ;
 	result = 
 		Case (
