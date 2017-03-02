@@ -43,9 +43,10 @@
  *	CREATED on 2015-JAN-06 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```##jsonDelete ( json;keyOrIndex)```/**
+ */```##jsonDelete ( json;keyOrIndex)```/*
  * =====================================
  * jsonDelete ( json ; keyOrIndex )
+ * v2.0
  *
  * RETURNS:
  *	JSON Object with the specified property removed
@@ -58,6 +59,8 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2016-DEC-05 John Renfrew, john@e-rwu.com
+ *		actual Error is set into $jsonError, change to RWU standards
  *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
  *		return "?" on error and the actual Error is set into $json.error
  *	MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
@@ -326,4 +329,4 @@
  *	CREATED on 2015-JAN-08 Todd Geist, todd@geistinteractive.com
  *
  * =====================================
- */```
+ */```##NOT_USED_YET_jsonLength ( json)```/* we may not need this function so I am leaving as NOT USED FOR NOW */```

@@ -1,6 +1,7 @@
-/**
+/*
  * =====================================
  * jsonDelete ( json ; keyOrIndex )
+ * v2.0
  *
  * RETURNS:
  *	JSON Object with the specified property removed
@@ -13,6 +14,8 @@
  *	BaseElements Plugin version 3.0 or greater
  *
  * HISTORY:
+ *	MODIFIED on 2016-DEC-05 John Renfrew, john@e-rwu.com
+ *		actual Error is set into $jsonError, change to RWU standards
  *	MODIFIED on 2015-APR-21 Todd Geist, todd@geistinteractive.com
  *		return "?" on error and the actual Error is set into $json.error
  *	MODIFIED on 2015-JAN-07 Todd Geist, todd@geistinteractive.com
@@ -24,19 +27,26 @@
 
 Let ( [
 	js =
-		List (
-			"var json = " & json & " ; " ;
-			"var keyOrIndex = " & Quote ( keyOrIndex ) & " ; " ;
-		) & "¶¶" & 
-
-		"if( Array.isArray(json)  ){" & "¶" &
-		"    keyOrIndex = parseInt(keyOrIndex);" & "¶" &
-		"    json.splice(keyOrIndex,1)" & "¶" & 
-		"}else{" & "¶" &
-		"    delete json[keyOrIndex];" & "¶" & 
-		"}" & "¶" &
-		"json = JSON.stringify(json);" & "¶" & 
-		"json" & "¶" & ""
+		List ( 
+	"var json = '" & BE_JSONPath ( json ; "$" ) & "' ; " ;
+	"var keyOrIndex = '" & keyOrIndex & "' ; " ;
+	"var dotz = keyOrIndex.indexOf('.')" ;
+	"var obj = JSON.parse(json);" ;
+	)  & "¶¶" & 
+	"if ( Array.isArray(json)){" & "¶" &
+	"	keyOrIndex = parseInt(keyOrIndex);" & "¶" &
+	"    json.splice(" & Quote ( keyOrIndex ) & ",1);" & "¶" &
+	"    result = JSON.stringify(json)" & "¶" &
+	"} else if (dotz < 0) {" & "¶" &
+	"    delete obj[keyOrIndex];" & "¶" &
+	"    result = JSON.stringify(obj);" & "¶" &
+	"} else {" & "¶" &
+	"	var frst = keyOrIndex.substring(0, dotz);" & "¶" &
+	"    var scnd = keyOrIndex.substring(dotz +1, keyOrIndex.length);" & "¶" &
+	"    delete obj[frst][scnd]; " & "¶" &
+	"    result = JSON.stringify(obj);" & "¶" &
+	"}" & "¶" &
+	"result" & "¶" & ""
 	;
 	result = BE_EvaluateJavaScript ( js ) ;
 	isError = not IsEmpty (
@@ -52,7 +62,7 @@ Let ( [
 			)
 		)
 	) ;
-	$json.error = 
+	$jsonError = 
 		Case (
 			BE_Version = "?" ;
 			"BaseElements plugin is not available" ;
